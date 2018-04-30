@@ -5,12 +5,14 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## GTS Coupe Bot
+## GTSCoupe Bot
 
 Es una aplicación web basada en el framework laravel, el cual tiene como objetivo crear un bot de telegram para gestionar información de sobre criptomonedas e intercambios
 
 
-## Learning Laravel
+## Instalación
+
+Puedes usar este bot buscado en telegram como gtscoupebot
 
 
 ## Contributing
