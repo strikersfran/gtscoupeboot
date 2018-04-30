@@ -347,7 +347,8 @@ class ApiController extends Controller{
         //Log::error('Funcion showPoloniex, Datos de Entrada ' .$chatid.'--'.$cbid.'--'.$text);
         //array identificativos
         $criptoid = array(
-            'polobtcr' => 'USDT_BTC', 'polousdr' => 'USDT_XMR'
+            'polobtcr' => 'BTC_', 
+            'polousdr' => 'USDT_'
         );
 
         //Log::error('Funcion showPoloniex, Valor del criptoid ' .$criptoid[$text]);
@@ -359,22 +360,20 @@ class ApiController extends Controller{
                         'show_alert' => false
             ]);
         }
+        
+        $mercado=($text=='polobtcr')?'BTC':'USD';
 
         $ticker = Poloniex::getTickers();
         //$balance = Poloniex::getBalanceFor('BTC');
-        Log::error('Funcion showPoloniex, Resultado de api poloniex ' .json_encode($ticker));
-        if (($ticker['percentChange'] * 100) > 0)
+        //Log::error('Funcion showPoloniex, Resultado de api poloniex ' .json_encode($ticker));
+        /*if (($ticker['percentChange'] * 100) > 0)
             $emoji = Emoji::moneyMouthFace();
         else
-            $emoji = Emoji::loudlyCryingFace();
+            $emoji = Emoji::loudlyCryingFace();*/
 
-        $message = "<b>POLONIEX </b>" . date('d/m/Y h:i:s A') . "\n\n";
-        $message .= '<b>CRIPTOMONEDA ' . trim($criptoid[$text], 'USDT_') . ":</b>\n";
-        $message .= "<b>Precio Actual:</b> " . $ticker['last'] . " $\n";
-        $message .= "<b>Porcentaje:</b> " . round($ticker['percentChange'] * 100, 2) . " %  " . $emoji . "\n";
-        $message .= "<b>Precio mas Alto 24Hr:</b> " . $ticker['high24hr'] . "\n";
-        $message .= "<b>Precio mas Bajo 24Hr:</b> " . $ticker['low24hr'] . "\n";
-        $message .= "<b>Volumen:</b> " . $ticker['baseVolume'] . " USDT";
+        $message = "<b>RESUMEN DE PRECIOS POLONIEX EN ".$mercado."</b>" . date('d/m/Y h:i:s A') . "\n\n";
+        $message .= "<b>Bitcoin Cash:</b> " . $ticker[$criptoid[$text].'BCH']['last'] ."( ". round($ticker[$criptoid[$text].'BCH']['percentChange'] * 100, 2) . ") \n";
+        
 
         //control de regrear al menu anterior
         /* $inlineLayout = [
@@ -599,7 +598,7 @@ class ApiController extends Controller{
             case '/noticias':
                 $this->showNoticias($chatid, $callback_query_id);
                 break;
-            case (($text == '/exchange') || ($text == '/poloniex') || ($text == '/uphold') || ($text == '/bitz')):
+            case (($text == '/exchange') || ($text == '/poloniex') || ($text == '/poloniexr') || ($text == '/uphold') || ($text == '/bitz')):
                 $this->showSubMenu($chatid, $callback_query_id, $text);
                 break;
             case (($text == 'polobtc') || ($text == 'poloxmr') || ($text == 'poloxrp') ||
