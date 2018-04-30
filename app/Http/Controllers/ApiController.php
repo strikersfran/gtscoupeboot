@@ -371,7 +371,7 @@ class ApiController extends Controller{
         else
             $emoji = Emoji::loudlyCryingFace();*/
 
-        $message = "<b>RESUMEN POLONIEX EN ".$mercado."</b>" . date('d/m/Y h:i:s A') . "\n\n";
+        $message = "<b>RESUMEN POLONIEX EN ".$mercado."</b> " . date('d/m/Y h:i:s A') . "\n\n";
         if($mercado=='USD'){
             $message .= "<b>BTC:</b> " . $ticker[$criptoid[$text].'BTC']['last'] ."( ". round($ticker[$criptoid[$text].'BTC']['percentChange'] * 100, 2) . "%) \n";
         }

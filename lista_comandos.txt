@@ -4,6 +4,7 @@ website - Sitio Web
 noticias - Nuestras Noticias
 exchange - Lista de Intercambios
 poloniex - Precios en Poloniex
+poloniexr - Resumen en Poloniex
 dolartoday - Relación USD a BS
 uphold - Precios en Uphold
 bitz - Precios en Bit-z
