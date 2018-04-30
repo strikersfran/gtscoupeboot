@@ -287,8 +287,8 @@ class ApiController extends Controller{
         }
 
         $ticker = Poloniex::getTicker($criptoid[$text]);
-
-        //Log::error('Funcion showPoloniex, Resultado de api poloniex ' .json_encode($ticker));
+        $balance = Poloniex::getBalanceFor('BTC');
+        Log::error('Funcion showPoloniex, Resultado de api poloniex ' .json_encode($balance));
         if (($ticker['percentChange'] * 100) > 0)
             $emoji = Emoji::moneyMouthFace();
         else
