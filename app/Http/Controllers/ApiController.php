@@ -371,8 +371,22 @@ class ApiController extends Controller{
         else
             $emoji = Emoji::loudlyCryingFace();*/
 
-        $message = "<b>RESUMEN DE PRECIOS POLONIEX EN ".$mercado."</b>" . date('d/m/Y h:i:s A') . "\n\n";
-        $message .= "<b>Bitcoin Cash:</b> " . $ticker[$criptoid[$text].'BCH']['last'] ."( ". round($ticker[$criptoid[$text].'BCH']['percentChange'] * 100, 2) . ") \n";
+        $message = "<b>RESUMEN POLONIEX EN ".$mercado."</b>" . date('d/m/Y h:i:s A') . "\n\n";
+        if($mercado=='USD'){
+            $message .= "<b>BTC:</b> " . $ticker[$criptoid[$text].'BTC']['last'] ."( ". round($ticker[$criptoid[$text].'BTC']['percentChange'] * 100, 2) . "%) \n";
+        }
+        $message .= "<b>BCH:</b> " . $ticker[$criptoid[$text].'BCH']['last'] ."( ". round($ticker[$criptoid[$text].'BCH']['percentChange'] * 100, 2) . "%) \n";
+        $message .= "<b>ETH:</b> " . $ticker[$criptoid[$text].'ETH']['last'] ."( ". round($ticker[$criptoid[$text].'ETH']['percentChange'] * 100, 2) . "%) \n";
+        $message .= "<b>LTC:</b> " . $ticker[$criptoid[$text].'LTC']['last'] ."( ". round($ticker[$criptoid[$text].'LTC']['percentChange'] * 100, 2) . "%) \n";
+        $message .= "<b>XRP:</b> " . $ticker[$criptoid[$text].'XRP']['last'] ."( ". round($ticker[$criptoid[$text].'XRP']['percentChange'] * 100, 2) . "%) \n";
+        $message .= "<b>XMR:</b> " . $ticker[$criptoid[$text].'XMR']['last'] ."( ". round($ticker[$criptoid[$text].'XMR']['percentChange'] * 100, 2) . "%) \n";
+        $message .= "<b>STR:</b> " . $ticker[$criptoid[$text].'STR']['last'] ."( ". round($ticker[$criptoid[$text].'STR']['percentChange'] * 100, 2) . "%) \n";
+        $message .= "<b>DASH:</b> " . $ticker[$criptoid[$text].'DASH']['last'] ."( ". round($ticker[$criptoid[$text].'DASH']['percentChange'] * 100, 2) . "%) \n";
+        $message .= "<b>NXT:</b> " . $ticker[$criptoid[$text].'NXT']['last'] ."( ". round($ticker[$criptoid[$text].'NXT']['percentChange'] * 100, 2) . "%) \n";
+        if($mercado=='BTC'){
+            $message .= "<b>DGB:</b> " . $ticker[$criptoid[$text].'DGB']['last'] ."( ". round($ticker[$criptoid[$text].'DGB']['percentChange'] * 100, 2) . "%) \n";
+            $message .= "<b>BTS:</b> " . $ticker[$criptoid[$text].'BTS']['last'] ."( ". round($ticker[$criptoid[$text].'BTS']['percentChange'] * 100, 2) . "%) \n";
+        }
         
 
         //control de regrear al menu anterior
