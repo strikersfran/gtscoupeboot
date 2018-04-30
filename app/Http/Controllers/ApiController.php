@@ -198,6 +198,7 @@ class ApiController extends Controller{
                 $inlineLayout = [
                         [
                         Keyboard::inlineButton(['text' => 'Poloniex', 'callback_data' => '/poloniex']),
+                        Keyboard::inlineButton(['text' => 'Poloniex Resumen', 'callback_data' => '/poloniexr']),
                         Keyboard::inlineButton(['text' => 'Uphold', 'callback_data' => '/uphold']),
                         Keyboard::inlineButton(['text' => 'Bit-z', 'callback_data' => '/bitz'])
                     ]
@@ -218,6 +219,15 @@ class ApiController extends Controller{
                         Keyboard::inlineButton(['text' => 'DASH', 'callback_data' => 'polodash']),
                         Keyboard::inlineButton(['text' => 'NXT', 'callback_data' => 'polonxt']),
                         Keyboard::inlineButton(['text' => 'STR', 'callback_data' => 'polostr'])
+                    ]
+                ];
+                break;
+            case '/poloniexr':
+                $text = "SELECIONE UN MERCADO";
+                $inlineLayout = [
+                        [
+                        Keyboard::inlineButton(['text' => 'BTC', 'callback_data' => 'polobtcr']),
+                        Keyboard::inlineButton(['text' => 'USD', 'callback_data' => 'polousdr'])
                     ]
                 ];
                 break;
@@ -287,8 +297,72 @@ class ApiController extends Controller{
         }
 
         $ticker = Poloniex::getTicker($criptoid[$text]);
-        $balance = Poloniex::getBalanceFor('BTC');
-        Log::error('Funcion showPoloniex, Resultado de api poloniex ' .json_encode($balance));
+        //$balance = Poloniex::getBalanceFor('BTC');
+        //Log::error('Funcion showPoloniex, Resultado de api poloniex ' .json_encode($balance));
+        if (($ticker['percentChange'] * 100) > 0)
+            $emoji = Emoji::moneyMouthFace();
+        else
+            $emoji = Emoji::loudlyCryingFace();
+
+        $message = "<b>POLONIEX </b>" . date('d/m/Y h:i:s A') . "\n\n";
+        $message .= '<b>CRIPTOMONEDA ' . trim($criptoid[$text], 'USDT_') . ":</b>\n";
+        $message .= "<b>Precio Actual:</b> " . $ticker['last'] . " $\n";
+        $message .= "<b>Porcentaje:</b> " . round($ticker['percentChange'] * 100, 2) . " %  " . $emoji . "\n";
+        $message .= "<b>Precio mas Alto 24Hr:</b> " . $ticker['high24hr'] . "\n";
+        $message .= "<b>Precio mas Bajo 24Hr:</b> " . $ticker['low24hr'] . "\n";
+        $message .= "<b>Volumen:</b> " . $ticker['baseVolume'] . " USDT";
+
+        //control de regrear al menu anterior
+        /* $inlineLayout = [
+          [
+          Keyboard::inlineButton(['text' => 'Menu Principal', 'callback_data' => '/menu'])
+          ],[
+          Keyboard::inlineButton(['text' => 'Menu Exchange', 'callback_data' => '/exchange'])
+          ],[
+          Keyboard::inlineButton(['text' => 'Menu Anteriror', 'callback_data' => '/poloniex'])
+          ]
+          ];
+
+          // create an instance of the replyKeyboardMarkup method
+          $keyboard = Telegram::replyKeyboardMarkup([
+          'inline_keyboard' => $inlineLayout
+          ]); */
+
+        $response = Telegram::sendMessage([
+                    'chat_id' => $chatid,
+                    'parse_mode' => 'HTML',
+                    'text' => $message/* , 
+                          'reply_markup' => $keyboard */
+        ]);
+
+        /* $response = Telegram::sendMessage([
+          'chat_id' => $chatid,
+          'parse_mode' => 'HTML',
+          'text' => '<b>IR A:</b>',
+          'reply_markup' => $keyboard
+          ]); */
+    }
+    public function showPoloniexResumen($chatid, $cbid, $text) {
+
+        //Log::error('Funcion showPoloniex, Datos de Entrada ' .$chatid.'--'.$cbid.'--'.$text);
+        //array identificativos
+        $criptoid = array(
+            'polobtcr' => 'USDT_BTC', 'polousdr' => 'USDT_XMR'
+        );
+
+        //Log::error('Funcion showPoloniex, Valor del criptoid ' .$criptoid[$text]);
+
+        if ($cbid != 0) {
+            $responses = Telegram::answerCallbackQuery([
+                        'callback_query_id' => $cbid,
+                        'text' => '',
+                        'show_alert' => false
+            ]);
+        }
+
+        $ticker = Poloniex::getTickers();
+        //$balance = Poloniex::getBalanceFor('BTC');
+        Log::error('Funcion showPoloniex, Resultado de api poloniex ' .json_encode($ticker));
         if (($ticker['percentChange'] * 100) > 0)
             $emoji = Emoji::moneyMouthFace();
         else
@@ -532,6 +606,9 @@ class ApiController extends Controller{
             ($text == 'polostr') || ($text == 'polodash') || ($text == 'pololtc') ||
             ($text == 'polonxt') || ($text == 'poloeth') || ($text == 'polobch')):
                 $this->showPoloniex($chatid, $callback_query_id, $text);
+                break;
+            case (($text == 'polobtcr') || ($text == 'polousdr')):
+                $this->showPoloniexResumen($chatid, $callback_query_id, $text);
                 break;
             case (($text == 'upbtc') || ($text == 'upltc') || ($text == 'upeur') ||
             ($text == 'upbtg') || ($text == 'upeth') || ($text == 'upbch')):
