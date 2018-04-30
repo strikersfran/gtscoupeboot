@@ -1,0 +1,18 @@
+help - Ayuda
+contacto - Información de Contacto
+website - Sitio Web
+noticias - Nuestras Noticias
+exchange - Lista de Intercambios
+poloniex - Precios en Poloniex
+dolartoday - Relación USD a BS
+uphold - Precios en Uphold
+bitz - Precios en Bit-z
+
+
+Request cuando se elimina un miembro del grupo
+
+Request {"message_id":204,"from":{"id":406729920,"is_bot":false,"first_name":"Francisco","last_name":"Carri\u00f3n","language_code":"es"},"chat":{"id":-288334894,"title":"Dragon Coin","type":"group","all_members_are_administrators":true},"date":1518275784,"left_chat_participant":{"id":426927754,"is_bot":false,"first_name":"yismar18","last_name":"Carrion"},"left_chat_member":{"id":426927754,"is_bot":false,"first_name":"yismar18","last_name":"Carrion"}}
+
+Request cuando se agrega un miembro al grupo 
+
+Request {"message_id":206,"from":{"id":406729920,"is_bot":false,"first_name":"Francisco","last_name":"Carri\u00f3n","language_code":"es"},"chat":{"id":-288334894,"title":"Dragon Coin","type":"group","all_members_are_administrators":true},"date":1518275905,"new_chat_participant":{"id":548166469,"is_bot":false,"first_name":"Yismar","last_name":"Carrion"},"new_chat_member":{"id":548166469,"is_bot":false,"first_name":"Yismar","last_name":"Carrion"},"new_chat_members":[{"id":548166469,"is_bot":false,"first_name":"Yismar","last_name":"Carrion"}]}
